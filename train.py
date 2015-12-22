@@ -1,3 +1,4 @@
+import os
 from sklearn import metrics
 from sklearn.datasets import load_files
 from sklearn.externals import joblib
@@ -15,4 +16,8 @@ text_clf_pl = Pipeline([('vect', CountVectorizer()),
                         ('tfidf', TfidfTransformer()),
                         ('clf', MultinomialNB())])
 text_clf = text_clf_pl.fit(twenty_train.data, twenty_train.target)
+
+if not os.access('models', os.F_OK):
+    os.mkdir('models')
+
 joblib.dump(text_clf, 'models/' + sys.argv[2] + '.pkl')
