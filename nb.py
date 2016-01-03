@@ -9,8 +9,10 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 import sys
 
-if not os.access('evals', os.F_OK):
-    os.mkdir('evals')
+eval_dir = os.environ['HOME'] + '/evals'
+
+if not os.access(eval_dir, os.F_OK):
+    os.mkdir(eval_dir)
 
 categories = sys.argv[1].split(',')
 twenty_train = load_files('20news-bydate-train', categories=categories,
@@ -31,4 +33,4 @@ print('Accuracy: ' + str(mean))
 print(metrics.classification_report(twenty_test.target, predicted,
                                     target_names=twenty_test.target_names))
 
-joblib.dump(mean, 'evals/' + sys.argv[2] + '.pkl')
+joblib.dump(mean, eval_dir + '/' + sys.argv[2] + '.pkl')
