@@ -1,11 +1,16 @@
 import numpy as np
+import os
 from sklearn import metrics
 from sklearn.datasets import load_files
+from sklearn.externals import joblib
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.linear_model import SGDClassifier
 from sklearn.pipeline import Pipeline
 import sys
+
+if not os.access('evals', os.F_OK):
+    os.mkdir('evals')
 
 categories = sys.argv[1].split(',')
 twenty_train = load_files('20news-bydate-train', categories=categories,
@@ -27,3 +32,5 @@ mean = np.mean(predicted == twenty_test.target)
 print('Accuracy: ' + str(mean))
 print(metrics.classification_report(twenty_test.target, predicted,
                                     target_names=twenty_test.target_names))
+
+joblib.dump(mean, 'evals/' + sys.argv[2] + '.pkl')
