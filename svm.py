@@ -21,7 +21,7 @@ twenty_train = load_files('20news-bydate-train', categories=categories,
 text_clf_pl = Pipeline([('vect', CountVectorizer()),
                         ('tfidf', TfidfTransformer()),
                         ('clf', SGDClassifier(loss='hinge', penalty='l2',
-                                              alpha=1e-3, n_iter=5,
+                                              alpha=1e-3, n_iter=10,
                                               random_state=42))])
 text_clf = text_clf_pl.fit(twenty_train.data, twenty_train.target)
 
